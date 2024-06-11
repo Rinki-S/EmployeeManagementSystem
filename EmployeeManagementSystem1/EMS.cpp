@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include<algorithm>
+#include<fstream>
 #include "Employees.h"
 #include "EMS.h"
 
@@ -41,7 +42,7 @@ int EMS::selectFunction(std::vector<Employee *> &employees) {
         case 4: modifyInfo(employees); break;
         case 5: query(employees); break;
         case 6: sortData(employees); break;
-        case 7: clearAllData(); break;
+        case 7: clearAllData(employees); break;
         case 8: exit(); break;
         default: break;
     }
@@ -119,6 +120,8 @@ bool EMS::removeEmployee(std::vector<Employee*>& employees) {   //按照编号删除离
 			return true;
 		}
 	}
+	std::cout << "Cannot find the employee." << std::endl;
+	return false;
 }
 
 bool EMS::modifyInfo(std::vector<Employee*>& employees) {  //按照编号修改员工信息
@@ -203,8 +206,11 @@ bool EMS::query(std::vector<Employee*>& employees) {  //按照编号或姓名查询员工信
           std::cout << "Cannot find the employee." << std::endl;
           return false;
     }
-    default: break;
 }
+}
+
+bool compare(Employee* a, Employee* b) {
+    return a->getDeptID() > b->getDeptID();
 }
 
 bool EMS::sortData(std::vector<Employee*>& employees){        //按照编号排序
@@ -228,14 +234,11 @@ bool EMS::sortData(std::vector<Employee*>& employees){        //按照编号排序
             }
         }
         switch (choice) {
-        case1: {   //升序排序
+        case 1: {   //升序排序
             std::sort(employees.begin(), employees.end());
             return true;
             }
-    case2: {   //降序排序
-        bool compare(Employee * a, Employee * b) {
-            return a->getDeptID() > b->getDeptID();
-        }
+        case 2: {   //降序排序
         std::sort(employees.begin(), employees.end(), compare);
         return true;
         }
@@ -243,16 +246,35 @@ bool EMS::sortData(std::vector<Employee*>& employees){        //按照编号排序
      }
 }
 
-bool EMS::clearAllData() {    //清空所有数据
+bool EMS::clearAllData(std::vector<Employee*>& employees) {    //清空所有数据
 	std::cout << "Are you sure you want to clear all data? (y/n) ";   //再次确认防止误操作
 	char choice;
 	std::cin >> choice;
 	if (choice == 'y') {
-		for (auto& employee : employees) {
-			delete employee;
+		for (auto it = employees.begin(); it != employees.end(); ++it) {
+			delete* it;
 		}
 		std::cout << "All data cleared." << std::endl;
 		return true;
 	}
 	return false;
+}
+
+bool EMS::exit() {  //////////////////////////////////////////////////////////
+	return true;
+};  //退出程序
+
+bool EMS::saveData(std::vector<Employee*>& employees) {  //保存数据
+	std::ofstream ofs("Employees.txt");
+	if (!ofs) {
+		std::cout << "Failed to save data." << std::endl;
+		return false;
+	}
+	for (const auto& employee : employees) {
+		ofs << employee->getName() << " " << employee->getAge() << " "
+			<< employee->getDeptID() << " " << employee->getJobTitle() << std::endl;
+	}
+	ofs.close();
+	std::cout << "Data saved." << std::endl;
+	return true;
 }

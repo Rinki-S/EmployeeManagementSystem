@@ -24,8 +24,10 @@ public:
                   << m_name << std::setw(15) << m_age << std::setw(15)
                   << m_deptID << std::setw(15) << m_jobTitle << std::endl;
     }
-	int getDeptID(){ return m_deptID; }     //获取编号用于查找
-	std::string getName() { return m_name; } //获取姓名用于查找
+	int getDeptID(){ return m_deptID; }     //获取编号
+	std::string getName() { return m_name; } //获取姓名
+	int getAge() { return m_age; }           //获取年龄
+	std::string getJobTitle() { return m_jobTitle; } //获取职位
 };
 
 class Manager : public Employee
