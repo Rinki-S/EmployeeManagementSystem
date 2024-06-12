@@ -6,8 +6,8 @@
 class EMS
 {
 public:
-    EMS() {};
-    ~EMS() {};
+    EMS();
+    ~EMS();
     void printMenu();
     void printTableHead();
     int selectFunction(std::vector<Employee *> &employees);
@@ -17,7 +17,7 @@ public:
     bool modifyInfo(std::vector<Employee *> &employees);
     bool query(std::vector<Employee *> &employees);
     bool sortData(std::vector<Employee *> &employees);
-    bool clearAllData(std::vector<Employee*>& employees);
+    bool clearAllData(std::vector<Employee *> &employees);
     bool exit();
     bool saveData(std::vector<Employee *> &employees);
 };

@@ -17,9 +17,14 @@ void printMenu() {
 int main() {
     std::cout << "Welcome to the employee management system!" << std::endl;
     printMenu();
+    // Initialize vector
     std::vector<Employee *> employees;
+    // Initialize system
     EMS ems;
+    // Read data from file
+    ems.readData(employees);
     while (ems.selectFunction(employees) != 8) {
+        // Loop until user chooses to exit
     }
     return 0;
 }
